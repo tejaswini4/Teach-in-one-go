@@ -1,0 +1,8 @@
+import nltk
+sentence =input("Enter your command ")
+tokens = nltk.word_tokenize(sentence)
+tagged = nltk.pos_tag(tokens)
+num=[i[0] for i in tagged if i[1]=="CD"] #Taking out the numbers from the command and storing in a list
+num=list(map(float,num))                   # Converting the numbers from characters into integers
+main_command=[i[0] for i in tagged if i[1] not in ["CD","CC","IN","."]] # Identifying keyword
+execute(main_command,num)  
