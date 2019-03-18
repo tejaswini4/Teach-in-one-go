@@ -1,0 +1,41 @@
+import operator
+import json
+import numpy as np
+def execute(command,num):
+    operations={"+":np.sum(np.array(num)),"*":np.prod(np.array(num))}
+    file=open("keywords","r")
+    l=file.read()
+    file.close()
+    k = json.loads(l)
+    key_words=list(k.keys())
+    distance_dict={}
+    for i in command:
+        for j in key_words:
+            distance_dict[(i,j)]=nltk.edit_distance(i,j)
+    match=min(distance_dict.items(), key=operator.itemgetter(1))[0] 
+    if distance_dict[match]>=len(match[1]):
+        print(operations[k[match[1]]],end=" ") 
+        response=input("is what I am assuming, am I right?[Y/N]")
+        file=open("keywords","w")
+        if response=='N':
+            if operations[k[match[1]]]==operations["+"]:
+                k[command[0]]="*"
+                file.write(json.dumps(k))
+                file.close()
+                print("Here is your result: ",num[0]*num[1])
+            else:
+                k[command[0]]="+"
+                file.write(json.dumps(k))
+                file.close()
+                print("Here is your result: ",num[0]+num[1])
+        else:
+            if operations[k[match[1]]]==operations["+"]:
+                k[command[0]]="+"
+                file.write(json.dumps(k))
+                file.close()
+            else:
+                k[command[0]]="*"
+                file.write(json.dumps(k))
+                file.close()
+    else:
+        print(operations[k[match[1]]])
