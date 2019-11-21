@@ -1,4 +1,5 @@
 import nltk
+import execute
 sentence =input("Enter your command ")
 tokens = nltk.word_tokenize(sentence)
 tagged = nltk.pos_tag(tokens)
